@@ -31,9 +31,9 @@ public class Application {
 		return repository.getAllStudent();
 	}
 
-@PostMapping("/student")
-public void registerStudent(String name, int age) {
-	repository.registerStudent(name, age);
+	@PostMapping("/student")
+	public void registerStudent(String name, int age) {
+		repository.registerStudent(name, age);
 
 	}
 
@@ -46,4 +46,4 @@ public void registerStudent(String name, int age) {
 	public void deleteStudent(String name) {
 		repository.deleteStudent(name);
 	}
-	 }
+}
