@@ -12,6 +12,12 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+
+	configurations {
+		compileOnly{
+			extendsFrom annotationProcessor
+		}
+	}
 }
 
 repositories {
@@ -21,6 +27,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.apache.commons:commons-lang3:3.14.0'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
