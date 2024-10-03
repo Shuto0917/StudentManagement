@@ -10,7 +10,7 @@ public class Student {
 
 
   private int id;
-  private String full_Name;
+  private String fullName;
   private String furigana;
   private String nickname;
   private String email;
