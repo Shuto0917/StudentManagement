@@ -17,12 +17,12 @@ public class StudentService {
     this.repository = repository;
   }
 
-  public List<Student> search30() {
-    return repository.search30();
+  public List<Student> searchStudentList() {
+    return repository.search();
 
   }
 
-  public List<StudentCourses> searchStudentCourseJava() {
-    return repository.searchStudentCourseJava();
+  public List<StudentCourses> searchStudentCourseList() {
+    return repository.searchStudentCourse();
   }
 }
