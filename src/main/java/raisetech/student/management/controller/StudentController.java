@@ -19,10 +19,10 @@ public class StudentController {
   private StudentConverter converter;
 
 @Autowired
-  public StudentController(StudentService service, StudentConverter converter) {
-    this.service = service;
-    this.converter = converter;
-  }
+public StudentController(StudentService service, StudentConverter converter) {
+  this.service = service;
+  this.converter = converter;
+}
 
 
   @GetMapping("/studentsList")
