@@ -10,13 +10,13 @@ public class Student {
 
 
   private String id;
-  private String fullName;
-  private String furigana;
+  private String fullName; //name
+  private String furigana; //kanaName
   private String nickname;
   private String email;
-  private String region;
+  private String region; //area
   private int age;
-  private String gender;
+  private String gender; //sex
   private String remark;
   private boolean isDeleted;
 }
