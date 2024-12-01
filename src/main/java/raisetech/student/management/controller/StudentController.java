@@ -50,7 +50,7 @@ public StudentController(StudentService service, StudentConverter converter) {
     StudentDetail studentDetail = new StudentDetail();
     studentDetail.setStudentCourses(Arrays.asList(new StudentCourses()));
     model.addAttribute("studentDetail", studentDetail);
-     return  "registerStudent";
+    return  "registerStudent";
   }
 
   @PostMapping("/registerStudent")
