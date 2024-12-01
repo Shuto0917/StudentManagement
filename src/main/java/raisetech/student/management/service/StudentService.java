@@ -25,8 +25,17 @@ public class StudentService {
 
   }
 
+  public StudentDetail searchStudent(int id) {
+    Student student = repository.searchStudent(id);
+    List<StudentCourses> studentsCourses = repository.searchStudentsCourses(Integer.parseInt(student.getId()));
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+    studentDetail.setStudentCourses(studentsCourses);
+    return studentDetail;
+  }
+
   public List<StudentCourses> searchStudentCourseList() {
-    return repository.searchStudentCourse();
+    return repository.searchStudentsCoursesList();
   }
   @Transactional
   public void registerStudent(StudentDetail studentDetail) {
@@ -36,6 +45,15 @@ public class StudentService {
       studentCourse.setCourseStartAt(LocalDateTime.now());
       studentCourse.setCourseEndAt(LocalDateTime.now().plusYears(1));
       repository.registerStudentCourses(studentCourse);
+    }
+  }
+
+
+  @Transactional
+  public void updateStudent(StudentDetail studentDetail) {
+    repository.updateStudent(studentDetail.getStudent());
+    for (StudentCourses studentCourse : studentDetail.getStudentCourses()) {
+      repository.updateStudentCourses(studentCourse);
     }
   }
 }

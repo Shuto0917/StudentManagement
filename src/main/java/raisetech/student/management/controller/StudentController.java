@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import raisetech.student.management.controller.converter.StudentConverter;
 import raisetech.student.management.data.Student;
 import raisetech.student.management.data.StudentCourses;
@@ -40,9 +37,11 @@ public StudentController(StudentService service, StudentConverter converter) {
     return "studentList";
   }
 
-  @GetMapping("/studentsCourseList")
-  public List<StudentCourses> searchStudentCourseList() {
-    return service.searchStudentCourseList();
+  @GetMapping("/Student/{id}")
+  public String getStudent(@PathVariable int id, Model model) {
+    StudentDetail studentDetail = service.searchStudent(id);
+    model.addAttribute("studentDetail", studentDetail);
+    return  "updateStudent";
   }
 
   @GetMapping("/newStudent")
@@ -50,7 +49,7 @@ public StudentController(StudentService service, StudentConverter converter) {
     StudentDetail studentDetail = new StudentDetail();
     studentDetail.setStudentCourses(Arrays.asList(new StudentCourses()));
     model.addAttribute("studentDetail", studentDetail);
-     return  "registerStudent";
+    return  "registerStudent";
   }
 
   @PostMapping("/registerStudent")
@@ -58,7 +57,16 @@ public StudentController(StudentService service, StudentConverter converter) {
     if (result.hasErrors()) {
       return "registerStudent";
     }
-      service.registerStudent(studentDetail);
-      return "redirect:/studentsList";
+    service.registerStudent(studentDetail);
+    return "redirect:/studentsList";
+  }
+
+  @PostMapping("/updateStudent")
+  public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+    if (result.hasErrors()) {
+      return "updateStudent";
+    }
+    service.updateStudent(studentDetail);
+    return "redirect:/studentsList";
   }
 }
