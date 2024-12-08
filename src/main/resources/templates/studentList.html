@@ -8,22 +8,24 @@
 <table border="1">
     <thead>
     <tr>
-    <th>ID</th>
-    <th>名前</th>
-    <th>カナ名</th>
-    <th>ニックネーム</th>
-    <th>メールアドレス</th>
-    <th>地域</th>
-    <th>年齢</th>
-    <th>性別</th>
-    <th>備考</th>
+        <th>ID</th>
+        <th>名前</th>
+        <th>カナ名</th>
+        <th>ニックネーム</th>
+        <th>メールアドレス</th>
+        <th>地域</th>
+        <th>年齢</th>
+        <th>性別</th>
+        <th>備考</th>
+        <th>キャンセル</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="studentDetail : ${studentList}">
         <td th:text="${studentDetail.student.id}">1</td>
         <td>
-            <a href="/studentList" th:href="@{/Student/{id}(id=${studentDetail.student.id})}" th:text="${studentDetail.student.fullName}">田中太郎</a>
+            <a href="/studentList" th:href="@{/Student/{id}(id=${studentDetail.student.id})}"
+               th:text="${studentDetail.student.fullName}">田中太郎</a>
         </td>
         <td th:text="${studentDetail.student.furigana}">タナカタロウ</td>
         <td th:text="${studentDetail.student.nickname}">タロウ</td>
@@ -32,6 +34,9 @@
         <td th:text="${studentDetail.student.age}">25</td>
         <td th:text="${studentDetail.student.gender}">男性</td>
         <td th:text="${studentDetail.student.remark}">特になし</td>
+        <td>
+            <input type="checkbox" th:checked="${studentDetail.student.isDeleted}"/>
+        </td>
     </tr>
     </tbody>
 </table>
