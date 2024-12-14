@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
 import raisetech.student.management.controller.converter.StudentConverter;
 import raisetech.student.management.data.Student;
 import raisetech.student.management.data.StudentCourses;
@@ -34,11 +35,15 @@ public class StudentController {
         List<Student> students = service.searchStudentList();
         List<StudentCourses> studentCourses = service.searchStudentCourseList();
 
+        List<Student> filteredStudents = students.stream()
+                .filter(student -> !student.isDeleted())
+                .toList();
+
         model.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
         return "studentList";
     }
 
-    @GetMapping("/student/{id}")
+    @GetMapping("/Student/{id}")
     public String getStudent(@PathVariable int id, Model model) {
         StudentDetail studentDetail = service.searchStudent(id);
         model.addAttribute("studentDetail", studentDetail);
@@ -69,5 +74,20 @@ public class StudentController {
         }
         service.updateStudent(studentDetail);
         return "redirect:/studentsList";
+    }
+
+    @GetMapping("/restoreStudentList")
+    public String restoreStudentList(Model model) {
+        List<Student> canceledStudents = service.searchCanceledStudents();
+        List<StudentCourses> studentsCourses = service.searchStudentCourseList();
+
+        model.addAttribute("canceledStudentList", converter.convertStudentDetails(canceledStudents, studentsCourses));
+        return "restoreStudentList";
+    }
+
+    @PostMapping("/restoreStudent")
+    public String restoreStudent(@RequestParam int studentId) {
+        service.restoreStudent(studentId);
+        return "redirect:/restoreStudentList";
     }
 }
