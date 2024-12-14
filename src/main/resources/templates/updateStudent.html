@@ -60,5 +60,30 @@
         <button type="submit">更新</button>
     </div>
 </form>
+
+<script>
+    document.querySelector("form").addEventListener("submit",function(event) {
+        const courseNames = new Set();
+        let hasDuplicate = false;
+
+        document.querySelectorAll("select[id^='courseName']).forEach(select => {
+            if (courseNames.has(select.value)) {
+                alert("同じコースが複数選択されています: " + select.value);
+                hasDuplicate = true;
+             }
+             courseNames.add(select.value);
+         });
+
+        if (hasDuplicate) {
+            event.preventDefault();
+        }
+    });
+
+    if (hasDuplicate) {
+        event.preventDefault();
+      }
+    });
+</script>
+
 </body>
 </html>

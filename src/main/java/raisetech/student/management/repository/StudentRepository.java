@@ -8,9 +8,12 @@ import raisetech.student.management.data.StudentCourses;
 
 @Mapper
 public interface StudentRepository {
-
-    @Select("SELECT * FROM students")
+    
+    @Select("SELECT * FROM students WHERE isDeleted = false")
     List<Student> search();
+
+    @Select("SELECT * FROM students WHERE isDeleted = true")
+    List<Student> searchCanceledStudents();
 
     @Select("SELECT * FROM students WHERE id = #{id}")
     Student searchStudent(int id);
