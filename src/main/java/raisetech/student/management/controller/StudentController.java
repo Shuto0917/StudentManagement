@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +18,7 @@ import raisetech.student.management.data.StudentCourses;
 import raisetech.student.management.domain.StudentDetail;
 import raisetech.student.management.service.StudentService;
 
-@Controller
+@RestController
 public class StudentController {
 
     private StudentService service;
@@ -31,16 +32,10 @@ public class StudentController {
 
 
     @GetMapping("/studentsList")
-    public String getStudentList(Model model) {
+    public List<StudentDetail> getStudentList() {
         List<Student> students = service.searchStudentList();
         List<StudentCourses> studentCourses = service.searchStudentCourseList();
-
-        List<Student> filteredStudents = students.stream()
-                .filter(student -> !student.isDeleted())
-                .toList();
-
-        model.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
-        return "studentList";
+        return converter.convertStudentDetails(students, studentCourses);
     }
 
     @GetMapping("/Student/{id}")
@@ -68,26 +63,8 @@ public class StudentController {
     }
 
     @PostMapping("/updateStudent")
-    public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
-        if (result.hasErrors()) {
-            return "updateStudent";
-        }
+    public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail) {
         service.updateStudent(studentDetail);
-        return "redirect:/studentsList";
-    }
-
-    @GetMapping("/restoreStudentList")
-    public String restoreStudentList(Model model) {
-        List<Student> canceledStudents = service.searchCanceledStudents();
-        List<StudentCourses> studentsCourses = service.searchStudentCourseList();
-
-        model.addAttribute("canceledStudentList", converter.convertStudentDetails(canceledStudents, studentsCourses));
-        return "restoreStudentList";
-    }
-
-    @PostMapping("/restoreStudent")
-    public String restoreStudent(@RequestParam int studentId) {
-        service.restoreStudent(studentId);
-        return "redirect:/restoreStudentList";
+        return ResponseEntity.ok("更新処理が成功しました。");
     }
 }

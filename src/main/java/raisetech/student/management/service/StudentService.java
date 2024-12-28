@@ -62,14 +62,5 @@ public class StudentService {
             repository.updateStudentCourses(studentCourse);
         }
     }
-
-    public void restoreStudent(int studentId) {
-        Student student = repository.searchStudent(studentId);
-
-        if (student != null && student.isDeleted()) {
-            student.setDeleted(false); //キャンセルを解除
-            repository.updateStudent(student);
-        }
-    }
 }
 
